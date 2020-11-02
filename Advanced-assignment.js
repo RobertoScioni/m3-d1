@@ -255,7 +255,43 @@ and returns a NxN spiral matrix.
         [10,  9,  8, 7]]
 
 */
-matrix = (N) => {
+const matrix = (N) => {
+	let matrix = []
+	let offset = 0
+	for (let X = 1, K = offset; X <= N; X++) {
+		matrix.push(new Array(N))
+	}
+	return round(matrix, 1, 0)
+}
+const round = (matrix, start, startIndex) => {
+	let value = start
+	let K = start
+	let size = matrix.length - startIndex * 2
+	for (let x = startIndex; x < size; x++, K++) {
+		matrix[startIndex][x] = K
+		if (x + 1 < size - startIndex) {
+			matrix[x + 1][size - startIndex - 1] = size + K
+		}
+	}
+	K = K + size - 2
+	for (let Y = size - startIndex - 1; Y >= 0; Y--, K++) {
+		let a = Y - 1
+		let c = matrix[size - 1][Y]
+		matrix[size - 1][Y] = K
+		let b = Y - 1
+		if (Y > 1) {
+			matrix[Y - 1][startIndex] = K + size
+		}
+	}
+	let nextStart = startIndex
+	nextStart++
+	if (size - 2 > 1) {
+		round(matrix, K + size - 2, nextStart)
+	}
+	return matrix
+}
+/* 
+const matrixOld = (N) => {
 	let matrix = []
 	let offset = 0
 	for (let X = 1, K = offset; X <= N; X++) {
@@ -283,5 +319,5 @@ matrix = (N) => {
 	}
 	return matrix
 }
-
+*/
 console.log(matrix(4))

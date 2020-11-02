@@ -255,14 +255,31 @@ and returns a NxN spiral matrix.
         [10,  9,  8, 7]]
 
 */
-matrix = (n) => {
+matrix = (N) => {
 	let matrix = []
-	for (let X = 1; X <= n; X++) {
-		matrix.push([])
+	let offset = 0
+	for (let X = 1, K = offset; X <= N; X++) {
+		matrix.push(new Array(N))
 	}
-	for (let x = 1; x <= n * n; x++) {
-		console.log(x)
-		for (let Y = 0; Y < n; Y++) {}
+	for (let n = N, round = 0; n >= 1; n = n - 2, round++) {
+		//console.log(matrix)
+		for (let x = 1 + round; x <= n; x++) {
+			matrix[0][x - 1] = x - round + offset
+			if (x < n) {
+				matrix[x][n - 1] = n + x
+				K = n + x
+			}
+		}
+		for (let Y = n - 1; Y >= 0; Y--, K++) {
+			let a = Y - 1
+			let c = matrix[n - 1][Y]
+			matrix[n - 1][Y] = K
+			let b = Y - 1
+			if (Y > 0) {
+				matrix[Y - 1][0] = K + n
+			}
+		}
+		//	console.log(matrix)
 	}
 	return matrix
 }

@@ -326,7 +326,7 @@ Create a function that given a phrase returns its acronym, like British Broadcas
 
 */
 const acronym = (phrase) => {
-	out = []
+	let out = []
 	phrase.split(" ").forEach((element) => {
 		out.push(element.toUpperCase()[0])
 	})

@@ -203,7 +203,7 @@ const chunk = (vect, size) => {
 	}
 	return out
 }
-
+console.log("/ex chunk")
 console.log(chunk([1, 2, 3, 4, 5, 6, 7, 8], 3))
 /* 9) PYRAMID
 
@@ -264,30 +264,30 @@ const matrix = (N) => {
 	return round(matrix, 1, 0)
 }
 const round = (matrix, start, startIndex) => {
-	let value = start
 	let K = start
 	let size = matrix.length - startIndex * 2
-	for (let x = startIndex; x < size; x++, K++) {
-		matrix[startIndex][x] = K
-		if (x + 1 < size - startIndex) {
-			matrix[x + 1][size - startIndex - 1] = size + K
+	let lastIndex = matrix.length - 1
+	let x
+	let y
+	do {
+		for (x = startIndex; x <= lastIndex; x++, K++) {
+			matrix[startIndex][x] = K
 		}
-	}
-	K = K + size - 2
-	for (let Y = size - startIndex - 1; Y >= 0; Y--, K++) {
-		let a = Y - 1
-		let c = matrix[size - 1][Y]
-		matrix[size - 1][Y] = K
-		let b = Y - 1
-		if (Y > 1) {
-			matrix[Y - 1][startIndex] = K + size
+		x--
+		for (y = startIndex + 1; y <= lastIndex; y++, K++) {
+			matrix[y][x] = K
 		}
-	}
-	let nextStart = startIndex
-	nextStart++
-	if (size - 2 > 1) {
-		round(matrix, K + size - 2, nextStart)
-	}
+		y--
+		//K = K - 1 + startIndex
+		for (x = lastIndex - 1; x >= startIndex; x--, K++) {
+			matrix[lastIndex][x] = K
+		}
+		for (y = lastIndex - 1; y > startIndex; y--, K++) {
+			matrix[y][startIndex] = K
+		}
+		lastIndex--
+		startIndex++
+	} while (lastIndex > startIndex)
 	return matrix
 }
 /* 

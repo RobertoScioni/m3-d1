@@ -261,10 +261,8 @@ const matrix = (N) => {
 	for (let X = 1, K = offset; X <= N; X++) {
 		matrix.push(new Array(N))
 	}
-	return round(matrix, 1, 0)
-}
-const round = (matrix, start, startIndex) => {
-	let K = start
+	let K = 1
+	let startIndex = 0
 	let size = matrix.length - startIndex * 2
 	let lastIndex = matrix.length - 1
 	let x
@@ -287,37 +285,8 @@ const round = (matrix, start, startIndex) => {
 		}
 		lastIndex--
 		startIndex++
-	} while (lastIndex > startIndex)
+	} while (lastIndex >= startIndex)
 	return matrix
 }
-/* 
-const matrixOld = (N) => {
-	let matrix = []
-	let offset = 0
-	for (let X = 1, K = offset; X <= N; X++) {
-		matrix.push(new Array(N))
-	}
-	for (let n = N, round = 0; n >= 1; n = n - 2, round++) {
-		//console.log(matrix)
-		for (let x = 1 + round; x <= n; x++) {
-			matrix[0][x - 1] = x - round + offset
-			if (x < n) {
-				matrix[x][n - 1] = n + x
-				K = n + x
-			}
-		}
-		for (let Y = n - 1; Y >= 0; Y--, K++) {
-			let a = Y - 1
-			let c = matrix[n - 1][Y]
-			matrix[n - 1][Y] = K
-			let b = Y - 1
-			if (Y > 0) {
-				matrix[Y - 1][0] = K + n
-			}
-		}
-		//	console.log(matrix)
-	}
-	return matrix
-}
-*/
-console.log(matrix(4))
+
+console.log(matrix(5))

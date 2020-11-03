@@ -258,34 +258,59 @@ and returns a NxN spiral matrix.
 const matrix = (N) => {
 	let matrix = []
 	let offset = 0
+	/**
+	 * lets start by creating a void but sized matrix
+	 *
+	 * the "sized" arrays are important because we
+	 * will need to assign the elements of the matrix
+	 * in arbitrary order
+	 */
 	for (let X = 1, K = offset; X <= N; X++) {
 		matrix.push(new Array(N))
 	}
-	let K = 1
-	let startIndex = 0
-	let size = matrix.length - startIndex * 2
-	let lastIndex = matrix.length - 1
-	let x
-	let y
+	let K = 1 //this is the number i started counting from
+	let startIndex = 0 //the stanting index of the first loop
+	let size = matrix.length - startIndex * 2 //size of the side of the matrix in relation to the current index
+	let lastIndex = matrix.length - 1 //the last index of the matrix
+	let x //horizontal coordinate
+	let y //vertical coordinate
 	do {
+		//repeat this until our indexes collide
+		/**
+		 * cicle the first row of the current matrix
+		 */
 		for (x = startIndex; x <= lastIndex; x++, K++) {
 			matrix[startIndex][x] = K
 		}
-		x--
+		x-- //compensate for the last increment of X: foor loops execute their third parameter even when their condition becomes false
+
+		/**
+		 * cycle the la column of the current matrix, x stays constant while y grows from startindex+1 to last index
+		 * (remember that the first row includes in itself the first position of all the columns)
+		 */
 		for (y = startIndex + 1; y <= lastIndex; y++, K++) {
 			matrix[y][x] = K
 		}
 		y--
-		//K = K - 1 + startIndex
+		//K = K - 1 + startIndex this was an old offset in the recursive version, it's not needed now
+
+		/**
+		 * here we go in reverse order starting from the penultimate position of the last row
+		 * y stays still while X decreases until it reaches startindex
+		 */
 		for (x = lastIndex - 1; x >= startIndex; x--, K++) {
 			matrix[lastIndex][x] = K
 		}
+		/**
+		 * same principle, but for the last column
+		 */
 		for (y = lastIndex - 1; y > startIndex; y--, K++) {
 			matrix[y][startIndex] = K
 		}
-		lastIndex--
-		startIndex++
-	} while (lastIndex >= startIndex)
+		lastIndex-- //move last index towards the center
+		startIndex++ //move start index toward the center
+		//reducing the index whe move to an internal "submatrix" that is 2 row and 2 colums smaller
+	} while (lastIndex >= startIndex) //if the two indexes coincide or exchange relative position whe traversed the whole matrix
 	return matrix
 }
 
